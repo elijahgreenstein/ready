@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% block title %}<title>Ready</title>{% endblock %}
+    <link rel="stylesheet" href="{% static 'ready/styles.css' %}">
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo" style="padding: 3px;">
+        <a href="{% url 'index' %}"><img src="{% static 'ready/icons/ready-logo.svg' %}" alt="Ready Logo"></a>
+      </div>
+      <div class="header">
+        {% block header %}
+        {% endblock %}
+      </div>
+      <div class="sidebar">
+        {% block sidebar %}
+          <div class="create">
+            <a href="{% url 'food-create' %}">
+              <img src="{% static 'ready/icons/food.svg' %}" alt="Food icon">
+            </a>
+            <a href="{% url 'firstaid-create' %}">
+              <img src="{% static 'ready/icons/first-aid.svg' %}" alt="First aid icon">
+            </a>
+            <a href="{% url 'supplies-create' %}">
+              <img src="{% static 'ready/icons/supplies.svg' %}" alt="Supplies icon">
+            </a>
+          </div>
+          <div class="storage">
+            {% for location in locations %}
+              <div>
+                <a href="{{ location.get_absolute_url }}">
+                  {{ location.name }}
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        {% endblock %}
+      </div>
+      <div class="content">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </body>
+</html>

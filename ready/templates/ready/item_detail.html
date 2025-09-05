@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+
+{% block header %}
+  <h1>{{ item.category }}{% if item.group %} ({{ item.group }}){% endif %}: {{ item.name }}</h1>
+{% endblock %}
+
+{% block content %}
+  <h2>Overview</h2>
+  <p class="{% if item.quantity_status == 'emergency' %}emergency{% elif item.quantity_status == 'warning' %}warning{% else %}safe{% endif %}">Quantity: {{ item.total_quantity }} {{ item.unit }} / Target: {{ item.target_quantity }} {{ item.unit }}</p>
+  <p>Average Price: {% if item.amount_for_pricing and item.average_price %} &ndash;&ndash; ${{ item.average_price }} / {{ item.amount_for_pricing }} {{ item.unit }}{% else %}N/A{% endif %}</p>
+  <hr>
+    <h3>Available Items ({{ item.count_available_items }}): </h3>
+    <div class="itemdetail-instances">
+      {% if item.iteminstance_set.all %}
+        {% for item in item.iteminstance_set.all %}
+          {% if item.status == 'a' %}
+            <hr>
+            <div class="itemdetail-instance">
+              <p><strong>Item: </strong>{{ item.info }}</p>
+              <p><strong>Location: </strong>{{ item.location}}</p>
+              <p><strong>Quantity: </strong>{{ item.quantity}} {{ item.item.unit }}</p>
+              <p><span class="{% if instance.exp_status == 'warning' %}warning{% elif instance.exp_status == 'emergency' %}emergency{% else %}safe{% endif %}"><strong>Expiration: </strong>{{ item.expiration_date }}</span></p>
+              <p><strong>Purchase: </strong>${{ item.price }}, {{ item.store }}, {{ item.purchase_date}}</p>
+              <p><strong>Price per Unit: </strong>{% if item.price_per_unit %}${{ item.price_per_unit }} / {{ item.item.amount_for_pricing }} {{ item.item.unit }}{% else %}N/A{% endif %}</p>
+              <p><strong>UID: </strong>{{ item.pk }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <p>No items in stock.</p>
+      {% endif %}
+    </div>
+{% endblock %}

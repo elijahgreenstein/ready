@@ -1,0 +1,421 @@
+{% extends './base.html' %}
+{% block header %}
+<div class="home-overview">
+  <div>
+    <h1>Home</h1>
+  </div>
+  <div>
+    Food Items &mdash; {{ num_food }}
+  </div>
+  <div>
+    First Aid Items &mdash; {{ num_firstaid }}
+  </div>
+  <div>
+    Supplies &mdash; {{ num_supplies }}
+  </div>
+</div>
+{% endblock %}
+{% block content %}
+  <div class="home-alerts">
+    <h2>Alerts</h2>
+    {% if food_warnings or food_emergencies or firstaid_warnings or firstaid_emergencies or supplies_warnings or supplies_emergencies %}
+      <details close>
+        <summary class="details-alert">Expirations</summary>
+        <h4>Food</h4>
+        {% if food_emergencies or food_warnings %}
+          <table>
+          <tr>
+            <th>Item</th>
+            <th>Information</th>
+            <th>Expiration</th>
+            <th>Location</th>
+          </tr>
+            {% for emergency in food_emergencies %}
+              <tr class='home-emergency'>
+                <td>{{ emergency.item.name }}</td>
+                <td>{{ emergency.info }}</td>
+                <td>{{ emergency.expiration_date }}</td>
+                <td>{{ emergency.location }}</td>
+              </tr>
+            {% endfor %}
+            {% for warning in food_warnings %}
+              <tr class='home-warning'>
+                <td>{{ warning.item.name }}</td>
+                <td>{{ warning.info }}</td>
+                <td>{{ warning.expiration_date }}</td>
+                <td>{{ warning.location }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No food expiration alerts.</p>
+        {% endif %}
+        <h4>First Aid</h4>
+        {% if firstaid_emergencies or firstaid_warnings %}
+          <table>
+          <tr>
+            <th>Item</th>
+            <th>Information</th>
+            <th>Expiration</th>
+            <th>Location</th>
+          </tr>
+            {% for emergency in firstaid_emergencies %}
+              <tr class='home-emergency'>
+                <td>{{ emergency.item.name }}</td>
+                <td>{{ emergency.info }}</td>
+                <td>{{ emergency.expiration_date }}</td>
+                <td>{{ emergency.location }}</td>
+              </tr>
+            {% endfor %}
+            {% for warning in firstaid_warnings %}
+              <tr class='home-warning'>
+                <td>{{ warning.item.name }}</td>
+                <td>{{ warning.info }}</td>
+                <td>{{ warning.expiration_date }}</td>
+                <td>{{ warning.location }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No first aid expiration alerts.</p>
+        {% endif %}
+        <h4>Supplies</h4>
+        {% if supplies_emergencies or supplies_warnings %}
+          <table>
+          <tr>
+            <th>Item</th>
+            <th>Information</th>
+            <th>Expiration</th>
+            <th>Location</th>
+          </tr>
+            {% for emergency in supplies_emergencies %}
+              <tr class='home-emergency'>
+                <td>{{ emergency.item.name }}</td>
+                <td>{{ emergency.info }}</td>
+                <td>{{ emergency.expiration_date }}</td>
+                <td>{{ emergency.location }}</td>
+              </tr>
+            {% endfor %}
+            {% for warning in supplies_warnings %}
+              <tr class='home-warning'>
+                <td>{{ warning.item.name }}</td>
+                <td>{{ warning.info }}</td>
+                <td>{{ warning.expiration_date }}</td>
+                <td>{{ warning.location }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No supplies expiration alerts.</p>
+        {% endif %}
+      </details>
+    {% endif %}
+    {% if food_quant_warnings or food_quant_emergencies or firstaid_quant_warnings or firstaid_quant_emergencies or supplies_quant_warnings or supplies_quant_emergencies %}
+      <details close>
+        <summary class="details-alert">Quantity</summary>
+        <h4>Food</h4>
+        {% if food_quant_warnings or food_quant_emergencies %}
+          <table>
+            <tr>
+              <th>Item Type</th>
+              <th>Quantity</th>
+              <th>Target</th>
+              <th>Unit</th>
+            </tr>
+            {% for food in food_quant_emergencies %}
+              <tr class='home-emergency'>
+                <td>{{ food.name }}</td>
+                <td>{{ food.total_quantity }}</td>
+                <td>{{ food.target_quantity }}</td>
+                <td>{{ food.unit }}</td>
+              </tr>
+            {% endfor %}
+            {% for food in food_quant_warnings %}
+              <tr class='home-warning'>
+                <td>{{ food.name }}</td>
+                <td>{{ food.total_quantity }}</td>
+                <td>{{ food.target_quantity }}</td>
+                <td>{{ food.unit }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No food quantity alerts.</p>
+        {% endif %}
+        <h4>First Aid</h4>
+        {% if firstaid_quant_warnings or firstaid_quant_emergencies %}
+          <table>
+            <tr>
+              <th>Item Type</th>
+              <th>Quantity</th>
+              <th>Target</th>
+              <th>Unit</th>
+            </tr>
+            {% for firstaid in firstaid_quant_emergencies %}
+              <tr class='home-emergency'>
+                <td>{{ firstaid.name }}</td>
+                <td>{{ firstaid.total_quantity }}</td>
+                <td>{{ firstaid.target_quantity }}</td>
+                <td>{{ firstaid.unit }}</td>
+              </tr>
+            {% endfor %}
+            {% for firstaid in firstaid_quant_warnings %}
+              <tr class='home-warning'>
+                <td>{{ firstaid.name }}</td>
+                <td>{{ firstaid.total_quantity }}</td>
+                <td>{{ firstaid.target_quantity }}</td>
+                <td>{{ firstaid.unit }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No first aid quantity alerts.</p>
+        {% endif %}
+        <h4>Supplies</h4>
+        {% if supplies_quant_warnings or supplies_quant_emergencies %}
+          <table>
+            <tr>
+              <th>Item Type</th>
+              <th>Quantity</th>
+              <th>Target</th>
+              <th>Unit</th>
+            </tr>
+            {% for supplies in supplies_quant_emergencies %}
+              <tr class='home-emergency'>
+                <td>{{ supplies.name }}</td>
+                <td>{{ supplies.total_quantity }}</td>
+                <td>{{ supplies.target_quantity}}</td>
+                <td>{{ supplies.unit }}</td>
+              </tr>
+            {% endfor %}
+            {% for supplies in supplies_quant_warnings %}
+              <tr class='home-warning'>
+                <td>{{ supplies.name }}</td>
+                <td>{{ supplies.total_quantity }}</td>
+                <td>{{ supplies.target_quantity}}</td>
+                <td>{{ supplies.unit }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% else %}
+          <p>No supplies quantity alerts.</p>
+        {% endif %}
+      </details>
+    {% endif %}
+  </div>
+  <div class="home-sections">
+    <hr>
+    <h2>Food</h2>
+    <details close>
+      <summary>Summary</summary>
+      <div>
+        {% if food_items %}
+          {% for group in food_groups %}
+            <h3>{{ group }}</h3>
+            <table class="item-list" border="1">
+              <tr>
+                <th>Item</th>
+                <th>Stocked</th>
+                <th>Target</th>
+                <th>Average Price</th>
+              </tr>
+              {% for item in group.item_set.all %}
+                <tr>
+                  <td><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></td>
+                  <td>{% if item.target_quantity %}<span class="{% if item.quantity_status == 'emergency' %}emergency{% elif item.quantity_status == 'warning' %}warning{% else %}safe{% endif %}">{% endif %}{{ item.total_quantity }} {{ item.unit }}</span></td>
+                  <td>{% if item.target_quantity %}{{ item.target_quantity }} {{ item.unit }}{% else %}N/A{% endif %}</td>
+                  <td>{% if item.amount_for_pricing and item.average_price %}${{ item.average_price }} / {{ item.amount_for_pricing }} {{ item.unit }}{% endif %}</td>
+                </tr>
+              {% endfor %}
+            </table>
+          {% endfor %}
+        {% else %}
+          No food items in stock.
+        {% endif %}
+      </div>
+    </details>
+    <details close>
+      <summary>Details</summary>
+      <div class="details-content">
+        {% if food_items %}
+          {% for item in food_items %}
+            <div class="item-list-entry">
+              <p><strong><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></strong>{% if item.target_quantity %} &ndash;&ndash; <span class="{% if item.quantity_status == 'emergency' %}emergency{% elif item.quantity_status == 'warning' %}warning{% else %}safe{% endif %}">{{ item.total_quantity }} / {{ item.target_quantity }} {{ item.unit }}</span>{% else %} (<em>no target quantity</em>){% endif %}{% if item.amount_for_pricing and item.average_price %} &ndash;&ndash; ${{ item.average_price }} / {{ item.amount_for_pricing }} {{ item.unit }}{% endif %}</p>
+              {% if item.iteminstance_set.all %}
+              <table class="full-list-table" border="1">
+                {% for instance in item.get_available_items %}
+                  <tr>
+                    <td><a href="{{ instance.get_absolute_url }}">{{ instance.info }}<a> <a href="{% url 'food-update' pk=instance.id %}">(<em>edit</em>)</a></td>
+                    <td>{{ instance.location }}</td>
+                    <td>{{ instance.quantity }} {{ item.unit }}</td>
+                    <td>{{ instance.store }}</td>
+                    <td>{% if instance.price %}${{ instance.price }}{% else %}N/A{% endif %}</td>
+                    <td>{% if instance.price_per_unit %}${{ instance.price_per_unit }} / {{ item.amount_for_pricing }} {{ item.unit }}{% else %}N/A{% endif %}</td>
+                    <td><span class="{% if instance.exp_status == 'warning' %}warning{% elif instance.exp_status == 'emergency' %}emergency{% else %}safe{% endif %}"></span>exp: {% if instance.expiration_date %}{{ instance.expiration_date }}{% else %}N/A{% endif %}</td>
+                    <td>
+                      <div>
+                        <form class="consume" action="{% url 'consume-item' pk=instance.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit">C</button>
+                        </form>
+                        <form class="store" action="{% url 'store-item' pk=instance.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit">S</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </table>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No food items in inventory.</p>
+        {% endif %}
+      </div>
+    </details>
+    <hr>
+    <h2>First Aid</h2>
+    <details close>
+      <summary>Summary</summary>
+      <div>
+        {% if firstaid_items %}
+          {% for group in firstaid_groups %}
+            <h3>{{ group }}</h3>
+            <table class="item-list" border="1">
+              <tr>
+                <th>Item</th>
+                <th>Stocked</th>
+                <th>Target</th>
+                <th>Average Price</th>
+              </tr>
+              {% for item in group.item_set.all %}
+                <tr>
+                  <td><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></td>
+                  <td>{% if item.target_quantity %}<span class="{% if item.quantity_status == 'emergency' %}emergency{% elif item.quantity_status == 'warning' %}warning{% else %}safe{% endif %}">{% endif %}{{ item.total_quantity }} {{ item.unit }}</span></td>
+                  <td>{% if item.target_quantity %}{{ item.target_quantity }} {{ item.unit }}{% else %}N/A{% endif %}</td>
+                  <td>{% if item.amount_for_pricing and item.average_price %}${{ item.average_price }} / {{ item.amount_for_pricing }} {{ item.unit }}{% endif %}</td>
+                </tr>
+              {% endfor %}
+            </table>
+          {% endfor %}
+        {% else %}
+          No first aid items in stock.
+        {% endif %}
+      </div>
+    </details>
+    <details close>
+      <summary>Details</summary>
+      <div>
+        {% if firstaid_items %}
+          {% for item in firstaid_items %}
+            <div class="item-list-entry">
+              <p><strong><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></strong>{% if item.target_quantity %} &ndash;&ndash; <span class="{% if item.quantity_status == 'emergency' %}emergency{% elif item.quantity_status == 'warning' %}warning{% else %}safe{% endif %}">{{ item.total_quantity }} / {{ item.target_quantity }} {{ item.unit }}</span>{% else %} (<em>no target quantity</em>){% endif %}{% if item.amount_for_pricing and item.average_price %} &ndash;&ndash; ${{ item.average_price }} / {{ item.amount_for_pricing }} {{ item.unit }}{% endif %}</p>
+              {% if item.iteminstance_set.all %}
+              <table class="full-list-table" border="1">
+                {% for instance in item.get_available_items %}
+                  <tr>
+                    <td><a href="{{ instance.get_absolute_url }}">{{ instance.info }}<a> <a href="{% url 'firstaid-update' pk=instance.id %}">(<em>edit</em>)</a></td>
+                    <td>{{ instance.location }}</td>
+                    <td>{{ instance.quantity }} {{ item.unit }}</td>
+                    <td>{{ instance.store }}</td>
+                    <td>{% if instance.price %}${{ instance.price }}{% else %}N/A{% endif %}</td>
+                    <td>{% if instance.price_per_unit %}${{ instance.price_per_unit }} / {{ item.amount_for_pricing }} {{ item.unit }}{% else %}N/A{% endif %}</td>
+                    <td><span class="{% if instance.exp_status == 'warning' %}warning{% elif instance.exp_status == 'emergency' %}emergency{% else %}safe{% endif %}"></span>exp: {% if instance.expiration_date %}{{ instance.expiration_date }}{% else %}N/A{% endif %}</td>
+                    <td>
+                      <div>
+                        <form class="consume" action="{% url 'consume-item' pk=instance.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit">C</button>
+                        </form>
+                        <form class="store" action="{% url 'store-item' pk=instance.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit">S</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </table>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No first aid items in inventory.</p>
+        {% endif %}
+      </div>
+    </details>
+    <hr>
+    <h2>Supplies</h2>
+    <details close>
+      <summary>Summary</summary>
+      <div>
+        {% if supplies_items %}
+          {% for group in supplies_groups %}
+            <h3>{{ group }}</h3>
+            <table class="item-list" border="1">
+              <tr>
+                <th>Item</th>
+                <th>Stocked</th>
+                <th>Target</th>
+                <th>Average Price</th>
+              </tr>
+              {% for item in group.item_set.all %}
+                <tr>
+                  <td><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></td>
+                  <td>{% if item.target_quantity %}<span class="{% if item.quantity_status == 'emergency' %}emergency{% elif item.quantity_status == 'warning' %}warning{% else %}safe{% endif %}">{% endif %}{{ item.total_quantity }} {{ item.unit }}</span></td>
+                  <td>{% if item.target_quantity %}{{ item.target_quantity }} {{ item.unit }}{% else %}N/A{% endif %}</td>
+                  <td>{% if item.amount_for_pricing and item.average_price %}${{ item.average_price }} / {{ item.amount_for_pricing }} {{ item.unit }}{% endif %}</td>
+                </tr>
+              {% endfor %}
+            </table>
+          {% endfor %}
+        {% else %}
+          No supplies items in stock.
+        {% endif %}
+      </div>
+    </details>
+    <details close>
+      <summary>Details</summary>
+      <div>
+        {% if supplies_items %}
+          {% for item in supplies_items %}
+            <div class="item-list-entry">
+              <p><strong><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></strong>{% if item.target_quantity %} &ndash;&ndash; <span class="{% if item.quantity_status == 'emergency' %}emergency{% elif item.quantity_status == 'warning' %}warning{% else %}safe{% endif %}">{{ item.total_quantity }} / {{ item.target_quantity }} {{ item.unit }}</span>{% else %} (<em>no target quantity</em>){% endif %}{% if item.amount_for_pricing and item.average_price %} &ndash;&ndash; ${{ item.average_price }} / {{ item.amount_for_pricing }} {{ item.unit }}{% endif %}</p>
+              {% if item.iteminstance_set.all %}
+              <table class="full-list-table" border="1">
+                  {% for instance in item.get_available_items %}
+                    <tr>
+                      <td><a href="{{ instance.get_absolute_url }}">{{ instance.info }}<a> <a href="{% url 'supplies-update' pk=instance.id %}">(<em>edit</em>)</a></td>
+                      <td>{{ instance.location }}</td>
+                      <td>{{ instance.quantity }} {{ item.unit }}</td>
+                      <td>{{ instance.store }}</td>
+                      <td>{% if instance.price %}${{ instance.price }}{% else %}N/A{% endif %}</td>
+                      <td>{% if instance.price_per_unit %}${{ instance.price_per_unit }} / {{ item.amount_for_pricing }} {{ item.unit }}{% else %}N/A{% endif %}</td>
+                      <td><span class="{% if instance.exp_status == 'warning' %}warning{% elif instance.exp_status == 'emergency' %}emergency{% else %}safe{% endif %}"></span>exp: {% if instance.expiration_date %}{{ instance.expiration_date }}{% else %}N/A{% endif %}</td>
+                    <td>
+                      <div>
+                        <form class="consume" action="{% url 'consume-item' pk=instance.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit">C</button>
+                        </form>
+                        <form class="store" action="{% url 'store-item' pk=instance.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit">S</button>
+                        </form>
+                      </div>
+                    </td>
+                    </tr>
+                  {% endfor %}
+                </table>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <p>No supplies items in inventory.</p>
+        {% endif %}
+      </div>
+    </details>
+  </div>
+{% endblock %}

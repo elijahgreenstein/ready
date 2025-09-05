@@ -1,0 +1,10 @@
+<svg version="1.1"
+     width="70" height="70"
+     xmlns="http://www.w3.org/2000/svg">
+  <circle cx="35" cy="35" r="35" fill="#334155" />
+  <text font-size="60">
+    <tspan x="30" y="55" font-style="italic" font-family="sans-serif" font-weight="bold" text-anchor="middle" fill="#0f172a" stroke-width="2" stroke="#f1f5f9">
+      R
+    </tspan>
+  </text>
+</svg>

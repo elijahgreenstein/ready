@@ -1,0 +1,40 @@
+{% extends './base.html' %}
+{% block header%}
+  <h1>{{ location.name }} Inventory</h1>
+{% endblock %}
+{% block content %}
+  <h2>Overview</h2>
+  {% if location.iteminstance_set.all %}
+    {% for cat in categories %}
+      <hr>
+      <h3>{{ cat.name }}</h3>
+      <table class="location-table" border="1">
+        {% for inst in location.iteminstance_set.all %}
+          {% if inst.item.category.id == cat.id %}
+            <tr>
+              <td>{{ inst.info }}</td>
+              <td>{{ inst.quantity }} {{ inst.item.unit }}</td>
+              <td>{{ inst.store }}</td>
+              <td>{% if inst.price %}${{ inst.price }}{% else %}N/A{% endif %}</td>
+              <td><span class="{% if inst.exp_status == 'warning' %}warning{% elif inst.exp_status == 'emergency' %}emergency{% else %}safe{% endif %}"></span>exp: {% if inst.expiration_date %}{{ inst.expiration_date }}{% else %}N/A{% endif %}</td>
+              <td>
+                <div>
+                  <form class="consume" action="{% url 'consume-item' pk=inst.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">C</button>
+                  </form>
+                  <form class="store" action="{% url 'store-item' pk=inst.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">S</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </table>
+    {% endfor %}
+  {% else %}
+    <p>No items in {{ location.name }}.</p>
+  {% endif %}
+{% endblock %}
