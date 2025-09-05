@@ -63,16 +63,20 @@ Quick start
       $ django-admin startproject supplies
 
 #. Change into the new directory with ``cd supplies``.
-#. Add ``ready`` to the ``INSTALLED_APPS`` settings in ``supplies/settings.py``::
+#. Add ``ready`` to the ``INSTALLED_APPS`` settings in ``supplies/settings.py``:
 
-   INSTALLED_APPS = [
-       ...,
-       "ready",
-   ]
+    .. code-block:: python
 
-#. Include the ready URLconf in your project ``urls.py``::
+      INSTALLED_APPS = [
+          ...,
+          "ready",
+      ]
 
-   path("ready/", include("ready.urls")),
+#. Include the ready URLconf in your project ``urls.py``:
+
+    .. code-block:: python
+
+      path("ready/", include("ready.urls")),
 
 #. Run ``python manage.py migrate`` to create the models.
 
